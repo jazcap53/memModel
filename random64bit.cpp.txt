@@ -1,0 +1,26 @@
+#include <bitset>
+#include <iostream>
+#include <random>
+
+using std::bitset;
+using std::cout;  using std::endl;
+using std::knuth_b;  using std::uniform_int_distribution;
+
+int main()
+{
+    //    knuth_b kRE(1729UL); // to generate start tag
+    knuth_b kRE(4101953UL); // to generate end tag
+    uniform_int_distribution<int> uID(0, 1); 
+
+    bitset<64> bits = 0UL;
+    
+    for (int i = 0; i != 64; ++i) {
+        if (uID(kRE))
+            bits.set(i);
+    }
+
+    cout << bits.to_ulong() << endl;
+}
+
+// start tag output: 17406841880640449871
+// end tag output: 4205560943366639022

@@ -1,0 +1,9 @@
+When there are multiple clients, a write lock will have to be implemented.
+
+When multiple users access the same file, the first user to write gets the write 
+lock. Once the user gives up the write lock, the lock MAY NOT BE MADE AVAILABLE 
+TO ANY OTHER USER UNTIL THE NEXT JOURNAL PURGE.
+
+Somehow, the changes made by the user with the lock must then be pushed to all 
+other users who have the same file open.
+

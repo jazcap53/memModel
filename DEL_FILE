@@ -1,0 +1,85 @@
+TO DELETE A FILE:
+   Free its inode
+   For each block(if any):
+      Follow steps 'to delete a block'
+
+TO DELETE A BLOCK:  OK
+   Put block back on free list
+   Check map<> ChangeLog::theLog and bitset<> Journal::blksInJrnl
+      (i.e., check if block has been written to since last purge)
+   If yes
+      Mark block for wipe
+   If block is in page table, remove it
+
+TO ADD A BLOCK:  OK
+   If the block is marked for wipe, or # marked blocks >= 16:
+      write cgLog to jrnl, purge jrnl, clear wipe list
+   Remove block from free list via FileMan::addBlock()
+
+TO CREATE A FILE:  OK
+   Get an inode via FileMan::createFile()
+
+TO READ A BLOCK:
+   If not in memory
+      Follow steps 'to bring in a block'
+   Call FileMan::submitRequest()
+
+TO WRITE A BLOCK:
+   If not in memory
+      Follow steps 'to bring in a block'
+   Call FileMan::submitRequest()
+
+TO BRING IN A BLOCK TO MEMORY:
+   If no avail slot in page table
+      Evict a page from page table
+      Return evicted slot to caller
+   Add block to page table
+   Copy requested page into memory from sim disk
+   Copy in any changes to page from change log
+
+======================================================
+
+   Wipe (used and discarded) disk blocks just before putting them back into use.
+
+   Blocks are put into use in sequential order, instead of taking the lowest 
+   numbered available block.
+
+   When discarding a block, if it has been written (check map<> ChangeLog::theLog
+   and bitset<> Journal::blksInJrnl) since the last journal purge, mark it for 
+   wipe.
+
+   Then before adding a block, check if 1) it has been marked for wipe or
+   2) (16) blocks total have been marked for wipe. If yes to 1) or 2),  
+   write cgLog to jrnl, purge jrnl, and wipe marked blocks.
+/////
+   Journal::purgeJrnl() is set up to check each block as it is being
+   purged. 
+   If the block has been marked for wipe:
+      overwrite that block with a clean one, and unmark it 
+   Else:
+      perform the normal purge procedure on that block.
+
+   Block will be marked for wipe *only* if it has been written and released *since
+   the last purge*. Therefore it will have an entry in the journal.
+/////
+   This will keep the property of purgeJrnl() that it accesses blocks in order,
+   and minimize the buildup of used and dirty blocks.
+
+======================================================
+
+   TASKS: 
+3)    Reimplement purgeJrnl() so that if a block is marked for wipe, overwrite it
+      with a clean block. Else purge as ordinarily. Block will be marked for wipe
+      IFF it has been written since last journal purge, then deleted.
+
+2)    Implement wipe list as a bitset<Globals::NUM_DISK_BLOCKS>. When a block is
+      deleted, IFF it has been written to since last purge (i.e., IFF it is 
+      present in map<> ChangeLog::theLog OR in bitset<> Journal::blksInJrnl), 
+      mark the block for wipe (i.e., set its bit in the wipe list).
+
+1)    Implement and test removal of a specific block from page table.
+
+======================================================
+
+   Idea is to avoid a block being brought (back) into use, then written with old 
+   data from the cgLog or jrnl. 

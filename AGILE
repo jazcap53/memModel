@@ -1,0 +1,202 @@
+Sprint start date: Tue 03/18/14  End date: Tue 04/08/14 
+
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+GOALS:
+
+High:
+====
+Get rid of 'theGlobals' files and namespace.                                  DONE
+Check: When a file is deleted, are its contents deleted from disk also?       DONE
+       Do they need to be?
+Issue: a block from an 'old' file that is still in use may be evicted from    DONE
+       page table *before* a block from a newer file that is no longer in 
+       use? Also, there is no distinction among:
+          1) a block in memory that has been released, i.e. it belongs to 
+             NO file.
+          2) a block in memory that belongs to a file that has been closed.
+          3) a block in memory that belongs to an open file
+       There is also the possibility of a file being open by more than 
+       one client.
+       Notes: #1 NOT AN ISSUE. When a file is deleted, its blocks are
+                               removed from the page table.
+              #2, #3 NOT YET AN ISSUE. File open(), close() are N.Y.I
+
+Periodically reclaim unused blocks                                            DONE
+Periodically save the inode table and free list?
+Test the contents of binary files disk_file, jrnl_file, free_file,            DONE
+     node_file                                                                
+Begin using Google Test                                                       DONE
+
+Medium:
+======
+Remove inline functions from header files; make them inline in the 
+       corresponding .cpp files.
+Fix tabber function. It should take 2 integral params, for the number of 
+    newlines and the number of tabs, plus a bool for adding an extra 
+    newline if lines are a different length.
+Separate tabber into its own .cpp, .h files?
+Change data structures on FreeList class to array<bitset<>>.                  DONE
+Add in times for all clog entries.
+Fix Makefile?
+
+Low:
+===
+Change ChangeLog from a struct to a class?
+Why are data and functions relating to Memory::firstFree a part of Memory 
+    class instead of being a part of FreeList class?
+Execute plans in comments of Client::makeRequests()
+Client.cpp: where random calls are slow (req file exists), create 
+            randomish() function?
+Redo Driver::rdCLArgs() as per K&R. Also check for malicious input.
+Check U vs UL in Journal, esp numDataLines
+
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+Standups:
+
+Thu 03/27/14
+Yesterday: Finished the WipeList. Version appears well behaved and is 
+           ready for unit testing.
+
+Today: Go as far as I can with Google Test. Check whether WipeList solves
+       problem under 'Issue' in high-priority goals above. Examine the 
+       contents of the binary files for correctness.
+
+Obstacles: None, other than limited time.
+
+-----
+
+Fri 03/28/14
+Yesterday: Did none of the above. Spent most of the day on other projects.
+           Created a Journal::doWipeRoutine() function and called it from
+           FileMan::addBlock(). Removed some 'friend class' declarations that
+           became extraneous as a result.
+
+Today: If I work on the project, start on some of the things I had planned for
+       yesterday.
+
+Obstacles: Busy with other projects.
+
+-----
+
+Sat 3/29/14
+Yesterday: Ran first successful unit tests on WipeList class. Worked on changing
+           FreeList::bitsFrm and FreeList::bitsTo from bitset<> to 
+           array<bitset<>> so they can handle disk sizes > 4GB.
+
+Today: Try and complete the FreeList changes.
+
+Obstacles: This change to FreeList was not simple. There will be errors. Debugging
+           session ahead.
+
+-----
+
+Sun 3/30/14
+Yesterday: Testing changes went well. Learned more about gtest and performed some
+           basic tests to FreeList and WipeList. Wrapped up existing changes;
+           ready for new stuff.
+
+Today: Check any open High priority goals. Ahead of schedule: work on Medium and
+       Low priority goals and/or find new things to improve.
+
+Obstacles: Time
+
+-----
+
+Mon 3/31/14
+Yesterday: Finished all High priority goals except 'Periodically save the inode 
+           table and free list?'.
+
+Today: Deal with 'Periodically save the inode table and free list?'. Make progress
+       on the new ArrBit class (see TODO file).
+
+Obstacles: Time
+
+-----
+
+Tue 4/1/14
+Yesterday: Did not work on the 'periodically save the inode table and free list?'
+           task but completed the new ArrBit class (except for creating tests w/
+           gtest). Used the new class in FreeList, to replace the bitsFrm and 
+           bitsTo data members. Tested ArrBit by comparing program output with
+           that of the unaltered program. Results revealed no errors.
+
+Today: Begin deploying the ArrBit class as members of the other classes where it 
+       would be useful: InodeTable and WipeList.
+
+Obstacles: Time.
+
+-----
+
+Wed 4/2/14
+Yesterday: Deployed the ArrBit class as a data member of InodeTable. Existing
+           unit tests for FreeList and WipeList classes passed.
+
+Today: Write more unit tests. Deploy ArrBit as a member of WipeList and unit test.
+       As time permits, check out how often and when the node_file, free_file, and
+       wipe list are being saved. Also begin cleanup process prior to release,
+       entering week 3 of release cycle.
+
+Obstacles: None anticipated.
+
+-----
+
+Thu 4/3/14
+Yesterday: Deployed the ArrBit class as a data member of WipeList. Wipe list does
+           not need to be persisted as its contents are cleared with each journal
+           purge. The journal is purged regularly, including on shutdown.
+
+Today: Figure out at what intervals to write node_file and free_file to disk.
+       Create new unit tests, starting with arrBit. Cleanup of comments and TODO 
+       list.
+
+Obstacles: Time.
+
+-----
+
+Fri 4/4/14
+Yesterday: Created more unit tests. Made naming of constants more consistent.
+           Wrote a handy python script to assist in their renaming. Some cleanup 
+           of comments and TODO's. The inode table and free list are now written
+           do disk with every journal purge.
+           
+Today: May not have the chance to work on the project. Anything accomplished will
+       be a bonus.
+
+Obstacles: Traveling most of the day.
+
+-----
+
+Sat 4/5/14
+Yesterday: Did not work on this project.
+
+Today: Have project ready for release Tuesday. Remove TODO's, clean comments,
+       search for lines made too long by search-and-replace operations. Only 
+       substantive changes may be to reduce the size of overlong functions.
+       If anything else is attempted it must be small.
+
+Obstacles: None
+
+-----
+
+Sun 4/6/14
+Yesterday: Cleaned up some TODO's. Took care of overlong lines. Working on a 
+           Python script to keep track of which functions call which; still in 
+           progress.
+
+Today: Work on header comments. Work on new Python script. Other TODO's.
+
+Obstacles: None anticipated
+
+-----
+
+Mon 4/7/14
+Yesterday: Completed the header comments. About halfway through the Python script.
+
+Today: Finish the TODO's. Prepare for release tomorrow. The Python script will
+       have to wait.
+
+Obstacles: None anticipated
+
+---

@@ -1,0 +1,43 @@
+V#      TGT_DATE     REL_DATE     TGT_FEATURES / FIXES                                       DELIVERED_FEATURES
+===================================================================================================================================================
+0.1.8                03/18/2014   ---                                                        File concept, free list, inode table, dedicated client,
+                                                                                             file shifter, tab/newline manipulator.
+--------------------------------------------------------------------------------------------------------------------------------------------------
+0.1.10  04/08/2014                Issue: a block from an 'old' file that is still in use 
+                                  may be evicted from page table *before* a block from a 
+                                  newer file that is no longer in use? Also, there is no 
+                                  distinction among:
+                                      1) a block in memory that has been released, i.e. 
+                                         it belongs to NO file
+                                      2) a block in memory that belongs to a file that 
+                                         has been closed
+                                      3) a block in memory that belogs to an open file
+                                  There is also the possibility of a file being open by 
+                                  more than one client.
+
+                                  Fix Makefile?
+
+                                  Execute plans in comments of Client::makeRequests()?
+
+                                  When a file is deleted, are its contents wiped from 
+                                  disk? Do they need to be?
+
+                                  Add in times for all entries.
+
+                                  Client.cpp: new function to fix where random() calls 
+                                  are slow?
+
+                                  Verify node_file, free_file.
+
+                                  Periodic save of node_file, free_file?
+
+                                  Levels of detail for output.txt configurable from 
+                                  command line?
+                                  
+                                  Redo Driver::rdCLArgs() as per K&R; check for 
+                                  malicious input.
+
+                                  Multiple clients?
+
+                                  Adjust Client so blocks it is using are most likely 
+                                  to be reqested?

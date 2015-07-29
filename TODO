@@ -1,0 +1,41 @@
+FUTURE ITERATIONS:
+
+Implement open() and close() of files.
+
+Multiple clients
+
+Clients in separate processes
+
+Remote clients
+
+Producer-consumer queue
+
+address issue of stuff created on heap vs. stack
+
+reassess use of assert()
+
+check for functions that should be inline
+
+check for functions that are too long
+
+confusing naming of constants in aJTypes.h.     DONE
+
+The changes below may have to
+      wait until the next release!
+Important: MemMan::blksInMem is a bitset<NUM_DISK_SECS>
+           Replace with an array<bitset<>>
+           Journal::blksInJrnl ditto!
+           Memory::avlMemSlts is bitset<NUM_MEM_SLOTS>
+           Does this need to be replaced also?
+           Are there others?
+
+When file open() close() are implemented, must maintain a counter (in page table?)
+of how many times the file has been opened and not yet closed. Blocks not 
+currently part of an open file *may* be removed from page table.
+
+Try to remove excess 'using namespace xxx' from .h files
+
+improve algorithm for this function after converting data member to ArrBit
+// Returns index of first free memory slot, if any.
+// Otherwise, returns NUM_MEM_SLOTS
+uint32_t Memory::getFirstAvlMemSlt()
