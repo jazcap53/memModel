@@ -5,3 +5,4 @@ funNames.txt
 output.txt
 status.txt
 memModel
+*.o
