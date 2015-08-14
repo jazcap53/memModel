@@ -43,7 +43,7 @@ enum lNum_tConst : lNum_t {
 };
         
 enum bNum_tConst : bNum_t {
-    NUM_DISK_BLOCKS = 256U                          // should be a mulitple of 8
+    NUM_DISK_BLOCKS = 256U                          // should be a multiple of 8
 };
 
 #endif

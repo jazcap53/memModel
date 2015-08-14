@@ -25,6 +25,6 @@ struct Tabber {
     std::string operator()(uint32_t num, bool newline = false); 
 };
 
-std::ostream &operator<<(std::ostream& os, Tabber& tbr);
+std::ostream &operator<<(std::ostream& os, const Tabber& tbr);
 
 #endif

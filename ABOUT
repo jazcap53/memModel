@@ -45,7 +45,7 @@ the client (currently the driver).
 
 Each request is for a read or a write on a 
 given block number. The requests are passed as Change's, so that each request may
-alter mulitple lines on its block.
+alter multiple lines on its block.
 
 MemMan reads the requested block into a slot in memory from disk, via the open 
 stream held by the SimDisk instance. The block is then read or written. 

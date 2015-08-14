@@ -73,7 +73,7 @@ void Client::makeRequests()
         if (act < 5) {   // create a file if possible; else delete a random file
             createOrDelete();
         }
-        else if (act < 8) {  // delete random file if possible; else create file
+        else if (act < 6) {  // delete random file if possible; else create file
             deleteOrCreate();
         }
         else if (act < 20) {      // pick a random file; add a block if possible

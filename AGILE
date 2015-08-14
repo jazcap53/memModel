@@ -159,7 +159,7 @@ Fri 4/4/14
 Yesterday: Created more unit tests. Made naming of constants more consistent.
            Wrote a handy python script to assist in their renaming. Some cleanup 
            of comments and TODO's. The inode table and free list are now written
-           do disk with every journal purge.
+           to disk with every journal purge.
            
 Today: May not have the chance to work on the project. Anything accomplished will
        be a bonus.

@@ -40,7 +40,7 @@ string Tabber::operator()(uint32_t num, bool newline)
     return s;
 }
     
-ostream &operator<<(ostream& os, Tabber& tbr)
+ostream &operator<<(ostream& os, const Tabber& tbr)
 {
     os << tbr;
     return os;

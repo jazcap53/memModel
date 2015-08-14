@@ -6,3 +6,4 @@ output.txt
 status.txt
 memModel
 *.o
+*.swp

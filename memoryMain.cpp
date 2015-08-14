@@ -19,7 +19,7 @@ int main(int argc, char *argv[])
     Memory mainMem;          // set up data structures for pages and main memory
     ChangeLog myCgLog(drvr.getTest());     // track changes for write to journal
     Status myStts(drvr.getSFileName());    // maintain a status file for program
-    // files for disk, journal, free list, and inode table
+    // set up files for disk, journal, free list, and inode table
     SimDisk myDsk(&myStts, drvr.getDFileName(), drvr.getJFileName(),
                   drvr.getFFileName(), drvr.getNFileName());  
     // write changes from change log to journal, and from journal to disk
