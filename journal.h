@@ -79,9 +79,9 @@ namespace Disk {
         void init();
         void wrtField(const char *cp_dat, uint32_t datLen, bool doCt);
         void advanceStrm(int64_t len);
-		void wrtCgsToJrnl(ChangeLog &r_cgLog, uint64_t *p_cgBytes, 
-                              uint64_t *p_cgBytesPos);
-		void wrtCgsSzToJrnl(uint64_t *p_cgBytes, uint64_t cgBytesPos);
+        void wrtCgsToJrnl(ChangeLog &r_cgLog, uint64_t *p_cgBytes, 
+                          uint64_t *p_cgBytesPos);
+        void wrtCgsSzToJrnl(uint64_t *p_cgBytes, uint64_t cgBytesPos);
         void doTest1();
         void rdMetadata();
         void wrtMetadata(uint64_t *p_newGPos, uint64_t *p_newPPos, 

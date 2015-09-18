@@ -4,44 +4,50 @@ The program driver:
 
 1) 
 Creates an instance of the Memory class, including a
-    std::array<Page, Globals::NUM_MEM_PAGES> theMem
+    std::array<Page, u32Const::NUM_MEM_SLOTS> theMem
 where each Page holds an
-    unsigned char dat[Globals::BYTES_PER_PAGE]
+    unsigned char dat[u32Const::BYTES_PER_PAGE]
 Each location in theMem is referred to as a 'slot' in memory.
 
 2)
 Creates an instance of the ChangeLog class, including a
     std::map<uint64_t, std::list<Change>> theLog
-which maps block numbers to Change's. Each Change is a container for altered
-lines, holding a C-style array
-    uint64_t selectors[Globals::NUM_SELECTORS]
+which maps block numbers to Change's. 
+
+A Change is a container for altered lines, holding a
+    std::deque<select_t> selectors 
 and a
-    std::deque<Globals::Line> newData
-Line is typedef'd as 
-    std::array<unsigned char, Globals::BYTES_PER_LINE>
+    std::deque<Line> newData
+where select_t is typedef'ed as a 
+    std::array<unsigned char, 8>
+and Line is a
+    std::array<unsigned char, 64>
+
 Each Change instance contains all of the Lines, for a given page, that have been 
 altered. Each bit in a selector tracks whether a particular Line in that page has
 been altered. 
 
 3)
-Creates an instance of the Status class, which simply holds a fileName
+Creates an instance of the Status class, which simply holds a 
+    std::string fileName 
+and includes an instance of a
+    FileSys::FileShifter shifter
 
 4)
 Creates an instance of the SimDisk class, which reads or creates a disk_file,
-reads or creates a jrnl_file, closes both files, and opens the disk_file as a
-stream for binary update
+a jrnl_file, a jrnl_file, and a node_file, closes them, and opens the disk_file
+for binary update
  
 5)
 Creates an instance of the Journal class, which opens the jrnl_file for binary
 update, and allocates a buffer of
     <std::pair<uint64_t, Page>>
-in which (block number, Page) pairs may be created to update the pages with
+in which (block number, Page) pairs may be created to update the pages that have
 Change's held in the journal.
 
 6)
 Creates an instance of the MemMan class which will process requests sent to it by
-the client (currently the driver). 
-
+the (currently two) Client instances 
 
 Each request is for a read or a write on a 
 given block number. The requests are passed as Change's, so that each request may

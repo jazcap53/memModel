@@ -8,7 +8,7 @@
 namespace FileSys {
 
     /*****************************
-      This mix-in allows a file to be updated by creating a temporary copy,
+      This class allows a file to be updated by creating a temporary copy,
       updating the copy, and replacing the original with the temporary.
     *****************************/
     struct FileShifter {

@@ -1,8 +1,10 @@
 V#      TGT_DATE     REL_DATE     TGT_FEATURES / FIXES                                       DELIVERED_FEATURES
-===================================================================================================================================================
-0.1.8                03/18/2014   ---                                                        File concept, free list, inode table, dedicated client,
-                                                                                             file shifter, tab/newline manipulator.
---------------------------------------------------------------------------------------------------------------------------------------------------
+======================================================================================================================
+0.1.8                03/18/2014   ---                                                        File concept, free list,
+                                                                                             inode table, dedicated
+                                                                                             client, file shifter, 
+                                                                                             tab/newline manipulator.
+----------------------------------------------------------------------------------------------------------------------
 0.1.10  04/08/2014                Issue: a block from an 'old' file that is still in use 
                                   may be evicted from page table *before* a block from a 
                                   newer file that is no longer in use? Also, there is no 
